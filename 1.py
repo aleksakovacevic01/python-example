@@ -8,6 +8,7 @@ text = """ Chose one optios:
 
 mapa = {}
 while True:
+    print(text)
     option = input("Input: ")
     if option == '1':
         k = input("Word: ")
@@ -24,6 +25,7 @@ while True:
         print('quit')
         quit()
     elif option == '4':
+        print("Type the word you want to delete")
         rec = input("Input: ")
         if rec in mapa:
             del mapa[rec]
@@ -31,37 +33,35 @@ while True:
         elif rec in mapa:
             del mapa[rec]
     elif option == '5':
-        rec = input("Input: ")
-        if rec not in mapa:
-            print("ERROR")
-            continue
-        c = mapa[rec]
-    
-    # Prikaz svih reči sa njihovim indeksima
-        print("Trenutne reči u mapi:")
-        for i, word in enumerate(c):
-            print(f"{i}: {word}")
-
-    # Unos indeksa reči koju želiš da ažuriraš
+        print("Current words and meanings:")
+        for i, (word, meanings) in enumerate(mapa.items()):
+            print(f"{i}: {word} - {meanings}")
+            
         try:
-            index = int(input("Unesite indeks reči koju želite da ažurirate: "))
-            if index < 0 or index >= len(c):
-                print("Nevalidan indeks.")
+            index = int(input("Enter the index of the word you want to update: "))
+            if index < 0 or index >= len(mapa):
+                print("Invalid index.")
                 continue
+            
+            word_to_update = list(mapa.keys())[index]
+            new_word = input("Enter the new word (or press enter to keep it the same): ")
+            new_meaning = input("Enter the new meaning: ")
+
+            # Update the word if a new word was provided
+            if new_word:
+                print(mapa)
+                mapa[new_word] = [new_meaning]  # Zamenjujemo značenje
+                print(mapa)
+                if word_to_update != new_word:  # Ako se reč promenila, obrišemo staru
+                    del mapa[word_to_update]
+            else:
+                # Samo ažuriramo značenje
+                mapa[word_to_update] = [new_meaning]
+
+            print(f"Updated '{word_to_update}' to '{new_word}' with meaning '{new_meaning}'.")
         except ValueError:
-            print("Molimo unesite validan broj.")
-            continue
+            print("Please enter a valid number.")
 
-    # Unos nove reči i nove vrednosti
-        new_word = input("Unesite novu reč: ")
-        new_value = input("Unesite novu vrednost: ")
-
-    # Ažuriranje reči i njene vrednosti
-        c[index] = new_word  # Ažuriranje reči
-        c = new_value 
-        mapa[rec] = c  # Ažuriramo mapu sa novom listom
-
-        print(f"Reč na indeksu {index} je ažurirana na '{new_word}' sa vrednošću '{new_value}'.")
 
 
 
